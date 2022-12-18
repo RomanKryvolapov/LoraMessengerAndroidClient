@@ -96,16 +96,17 @@ class BluetoothHelper(
       }
       devices = bluetoothAdapter.bondedDevices.toList()
       bluetoothAdapter.cancelDiscovery()
-      bluetoothDevices?.invoke(devices.map { device ->
-        device.name + " (" + device.address + ")"
-      }
+      bluetoothDevices?.invoke(
+        devices.map { device ->
+          device.name + " (" + device.address + ")"
+        }
       )
       val lastSelected = preferences.getString(LAST_BLUETOOTH_DEVICE_ADDRESS, "")
       devices.firstOrNull { device ->
         device.address == lastSelected
-      }?.let {
-        bluetoothDevicePosition?.invoke(devices.indexOf(it))
-        selectedBluetoothDevice = it
+      }?.let { device ->
+        bluetoothDevicePosition?.invoke(devices.indexOf(device))
+        selectedBluetoothDevice = device
       }
     } catch (e: Exception) {
       showMessage?.invoke("Exception: $e")

@@ -6,27 +6,22 @@ import android.bluetooth.BluetoothManager
 import android.bluetooth.BluetoothSocket
 import android.content.Context
 import android.content.SharedPreferences
-import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 import java.io.DataInputStream
 
 class BluetoothHelper(
   private val preferences: SharedPreferences,
-  private val dispatcherIO: CoroutineDispatcher,
 ) {
 
   companion object {
-    private const val LAST_BLUETOOTH_DEVICE_ID = "LAST_BLUETOOTH_DEVICE_ID"
+    private const val LAST_BLUETOOTH_DEVICE_ADDRESS = "LAST_BLUETOOTH_DEVICE_ADDRESS"
   }
 
   private var socket: BluetoothSocket? = null
-
-  private var currentBluetoothConnectionStatus = false
-
   private var devices: List<BluetoothDevice> = emptyList()
   private var selectedBluetoothDevice: BluetoothDevice? = null
+  private var currentBluetoothConnectionStatus = false
+  private var currentSerialPortMessage = ""
 
   private var showMessage: ((String) -> Unit)? = null
   private var serialPortMessage: ((String) -> Unit)? = null
@@ -34,34 +29,32 @@ class BluetoothHelper(
   private var bluetoothConnectionStatus: ((Boolean) -> Unit)? = null
   private var bluetoothDevicePosition: ((Int) -> Unit)? = null
 
-  fun setup() {
-    CoroutineScope(dispatcherIO).launch {
-
-      while (true) {
-        try {
-          if (socket == null || socket?.isConnected != true) {
-            delay(500)
-          } else {
-            val buffer = ByteArray(256)
-            var bytes: Int
-            val inputStream = socket?.inputStream
-//          val outputStream = socket?.outputStream
-            val dataInputStream = DataInputStream(inputStream)
-//          val dataOutputStream = DataOutputStream(outputStream)
-            bytes = dataInputStream.read(buffer)
-            serialPortMessage?.invoke(String(buffer, 0, bytes).replace("\n", "").trim())
-            delay(100)
-          }
-        } catch (e: Exception) {
-          showMessage?.invoke("Exception: $e")
+  suspend fun setup() {
+    while (true) {
+      try {
+        if (socket == null || socket?.isConnected != true) {
           delay(500)
+        } else {
+          val buffer = ByteArray(256)
+          var bytes: Int
+          val inputStream = socket?.inputStream
+//          val outputStream = socket?.outputStream
+          val dataInputStream = DataInputStream(inputStream)
+//          val dataOutputStream = DataOutputStream(outputStream)
+          bytes = dataInputStream.read(buffer)
+          currentSerialPortMessage = String(buffer, 0, bytes).replace("\n", "").trim()
+          serialPortMessage?.invoke(currentSerialPortMessage)
+          delay(100)
         }
+      } catch (e: Exception) {
+        showMessage?.invoke("Exception: $e")
+        delay(500)
       }
     }
   }
 
   @SuppressLint("MissingPermission")
-  fun connectToSavedBluetoothDevice(context: Context){
+  fun connectToSavedBluetoothDevice(context: Context) {
     try {
       val bluetoothManager = context.getSystemService(BluetoothManager::class.java)
       val bluetoothAdapter = bluetoothManager.adapter
@@ -75,9 +68,9 @@ class BluetoothHelper(
       }
       devices = bluetoothAdapter.bondedDevices.toList()
       bluetoothAdapter.cancelDiscovery()
-      val lastSelected = preferences.getString(LAST_BLUETOOTH_DEVICE_ID, "")
+      val lastDevice = preferences.getString(LAST_BLUETOOTH_DEVICE_ADDRESS, "")
       devices.firstOrNull { device ->
-        device.address == lastSelected
+        device.address == lastDevice
       }?.let {
         bluetoothDevicePosition?.invoke(devices.indexOf(it))
         selectedBluetoothDevice = it
@@ -107,7 +100,7 @@ class BluetoothHelper(
         device.name + " (" + device.address + ")"
       }
       )
-      val lastSelected = preferences.getString(LAST_BLUETOOTH_DEVICE_ID, "")
+      val lastSelected = preferences.getString(LAST_BLUETOOTH_DEVICE_ADDRESS, "")
       devices.firstOrNull { device ->
         device.address == lastSelected
       }?.let {
@@ -140,7 +133,7 @@ class BluetoothHelper(
         showMessage?.invoke("Connected")
         preferences
           .edit()
-          .putString(LAST_BLUETOOTH_DEVICE_ID, device.address)
+          .putString(LAST_BLUETOOTH_DEVICE_ADDRESS, device.address)
           .commit()
       } ?: run {
         currentBluetoothConnectionStatus = false
@@ -186,6 +179,7 @@ class BluetoothHelper(
     this.bluetoothConnectionStatus = bluetoothConnectionStatus
     this.bluetoothDevicePosition = bluetoothDevicePosition
     this.bluetoothConnectionStatus?.invoke(currentBluetoothConnectionStatus)
+    this.serialPortMessage?.invoke(currentSerialPortMessage)
   }
 
   fun selectBluetoothDevice(position: Int) {

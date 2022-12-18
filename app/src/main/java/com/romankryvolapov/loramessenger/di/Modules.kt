@@ -31,7 +31,6 @@ val applicationModule = module {
   single<BluetoothHelper>() {
     BluetoothHelper(
       preferences = get() as SharedPreferences,
-      dispatcherIO = get(named(DISPATCHER_IO)) as CoroutineDispatcher,
     )
   }
   single<CoroutineDispatcher>(named(DISPATCHER_IO)) {

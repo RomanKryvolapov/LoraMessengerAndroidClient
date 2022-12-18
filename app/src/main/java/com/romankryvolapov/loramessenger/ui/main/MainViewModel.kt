@@ -5,6 +5,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.romankryvolapov.loramessenger.helpers.BluetoothHelper
 import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
@@ -18,11 +20,18 @@ class MainViewModel(
   val showMessageFlow: StateFlow<String?> = _showMessageFlow
 
   fun setupBluetoothHelper(context: Context) {
-    bluetoothHelper.setup()
-    bluetoothHelper.subscribeToMessages(
-      showMessage = { _showMessageFlow.value = it },
-    )
-    bluetoothHelper.connectToSavedBluetoothDevice(context)
+    viewModelScope.launch(dispatcherIO) {
+      bluetoothHelper.subscribeToMessages(
+        showMessage = { _showMessageFlow.value = it },
+      )
+    }
+    CoroutineScope(dispatcherIO).launch {
+      bluetoothHelper.setup()
+    }
+    viewModelScope.launch(dispatcherIO) {
+      delay(1000)
+      bluetoothHelper.connectToSavedBluetoothDevice(context)
+    }
   }
 
   fun clearMessage() {

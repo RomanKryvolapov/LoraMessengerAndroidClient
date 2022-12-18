@@ -15,11 +15,7 @@ X
 app/build.gradle,f\4\f4a01d6a4fcb971362ec00a83903fd3902f52164
 P
  app/src/main/AndroidManifest.xml,8\c\8c55c3ccc257e5907959013f99656e4c8ec3903e
-{
-Kapp/src/main/java/com/romankryvolapov/loramessenger/ui/main/PagerAdapter.kt,d\6\d62c12ee140be8612698159481b4dc5f241223a5
 }
 Mapp/src/main/java/com/romankryvolapov/loramessenger/helpers/FlowExtensions.kt,2\c\2c0305b72c28a0e285e02dda2c4c7dd357c8d1b0
-Ä
-Papp/src/main/java/com/romankryvolapov/loramessenger/helpers/AndroidExtensions.kt,f\9\f91176f82bc73f9dcd7366fb4bf01fa519c6093f
 Å
 Qapp/src/main/java/com/romankryvolapov/loramessenger/ui/raw/RawMessagesFragment.kt,2\5\254afc945eca0bc25a611f935b372191ed2f93bf

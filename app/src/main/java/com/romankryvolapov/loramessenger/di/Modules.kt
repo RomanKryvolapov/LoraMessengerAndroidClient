@@ -19,6 +19,7 @@ val applicationModule = module {
   viewModel<MainViewModel> {
     MainViewModel(
       bluetoothHelper = get() as BluetoothHelper,
+      dispatcherIO = get(named(DISPATCHER_IO)) as CoroutineDispatcher,
     )
   }
   viewModel<SettingsViewModel> {

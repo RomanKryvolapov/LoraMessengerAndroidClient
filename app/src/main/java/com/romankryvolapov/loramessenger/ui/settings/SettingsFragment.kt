@@ -91,10 +91,7 @@ class SettingsFragment : Fragment(), PermissionRequestListener {
         bluetoothDevicesAdapter?.addAll(list)
       }
     }.launch(lifecycleScope)
-    viewModel.showMessageFlow.onEach {
-      binding?.root.showMessageSnackBar(it)
-      viewModel.clearMessage()
-    }.launch(lifecycleScope)
+
     viewModel.bluetoothConnectionStatusFlow.onEach {
       binding?.buttonConnectToBluetoothDevice?.text = if (it) "Disconnect"
       else "Connect"

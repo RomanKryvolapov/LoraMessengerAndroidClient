@@ -23,6 +23,8 @@ class BluetoothHelper(
 
   private var socket: BluetoothSocket? = null
 
+  private var currentBluetoothConnectionStatus = false
+
   private var devices: List<BluetoothDevice> = emptyList()
   private var selectedBluetoothDevice: BluetoothDevice? = null
 
@@ -34,6 +36,7 @@ class BluetoothHelper(
 
   fun setup() {
     CoroutineScope(dispatcherIO).launch {
+
       while (true) {
         try {
           if (socket == null || socket?.isConnected != true) {
@@ -54,6 +57,34 @@ class BluetoothHelper(
           delay(500)
         }
       }
+    }
+  }
+
+  @SuppressLint("MissingPermission")
+  fun connectToSavedBluetoothDevice(context: Context){
+    try {
+      val bluetoothManager = context.getSystemService(BluetoothManager::class.java)
+      val bluetoothAdapter = bluetoothManager.adapter
+      if (bluetoothAdapter == null) {
+        showMessage?.invoke("Devise not have bluetooth")
+        return
+      }
+      if (!bluetoothAdapter.isEnabled) {
+        showMessage?.invoke("Bluetooth not enabled")
+        return
+      }
+      devices = bluetoothAdapter.bondedDevices.toList()
+      bluetoothAdapter.cancelDiscovery()
+      val lastSelected = preferences.getString(LAST_BLUETOOTH_DEVICE_ID, "")
+      devices.firstOrNull { device ->
+        device.address == lastSelected
+      }?.let {
+        bluetoothDevicePosition?.invoke(devices.indexOf(it))
+        selectedBluetoothDevice = it
+        connectBluetoothDevice()
+      }
+    } catch (e: Exception) {
+      showMessage?.invoke("Exception: $e")
     }
   }
 
@@ -81,60 +112,80 @@ class BluetoothHelper(
         device.address == lastSelected
       }?.let {
         bluetoothDevicePosition?.invoke(devices.indexOf(it))
+        selectedBluetoothDevice = it
       }
     } catch (e: Exception) {
       showMessage?.invoke("Exception: $e")
     }
   }
 
-  @SuppressLint("MissingPermission")
   fun connectOrDisconnectBluetoothDevice() {
-    socket?.let {
-      try {
-        socket?.close()
-        socket = null
-        bluetoothConnectionStatus?.invoke(false)
-        showMessage?.invoke("Disconnected")
-      } catch (e: Exception) {
-        bluetoothConnectionStatus?.invoke(false)
-        showMessage?.invoke("Exception: $e")
-      }
-    } ?: run {
-      try {
-        selectedBluetoothDevice?.let { device ->
-          showMessage?.invoke("Start connection to ${selectedBluetoothDevice?.name}")
-          val uuid = device.uuids[0].uuid
-          socket = device.createRfcommSocketToServiceRecord(uuid)
-          socket?.connect()
-          bluetoothConnectionStatus?.invoke(true)
-          showMessage?.invoke("Connected")
-          preferences
-            .edit()
-            .putString(LAST_BLUETOOTH_DEVICE_ID, device.address)
-            .commit()
-        } ?: run {
-          bluetoothConnectionStatus?.invoke(false)
-          showMessage?.invoke("Device not selected")
-        }
-      } catch (e: Exception) {
-        bluetoothConnectionStatus?.invoke(false)
-        showMessage?.invoke("Exception: $e")
-      }
+    if (socket?.isConnected != true) {
+      connectBluetoothDevice()
+    } else {
+      disconnectBluetoothDevice()
     }
+  }
+
+  @SuppressLint("MissingPermission")
+  private fun connectBluetoothDevice() {
+    try {
+      selectedBluetoothDevice?.let { device ->
+        showMessage?.invoke("Start connection to ${selectedBluetoothDevice?.name}")
+        val uuid = device.uuids[0].uuid
+        socket = device.createRfcommSocketToServiceRecord(uuid)
+        socket?.connect()
+        currentBluetoothConnectionStatus = true
+        bluetoothConnectionStatus?.invoke(currentBluetoothConnectionStatus)
+        showMessage?.invoke("Connected")
+        preferences
+          .edit()
+          .putString(LAST_BLUETOOTH_DEVICE_ID, device.address)
+          .commit()
+      } ?: run {
+        currentBluetoothConnectionStatus = false
+        bluetoothConnectionStatus?.invoke(currentBluetoothConnectionStatus)
+        showMessage?.invoke("Device not selected")
+      }
+    } catch (e: Exception) {
+      currentBluetoothConnectionStatus = false
+      bluetoothConnectionStatus?.invoke(currentBluetoothConnectionStatus)
+      showMessage?.invoke("Exception: $e")
+    }
+  }
+
+  private fun disconnectBluetoothDevice() {
+    try {
+      socket?.close()
+      socket = null
+      currentBluetoothConnectionStatus = false
+      bluetoothConnectionStatus?.invoke(currentBluetoothConnectionStatus)
+      showMessage?.invoke("Disconnected")
+    } catch (e: Exception) {
+      currentBluetoothConnectionStatus = false
+      bluetoothConnectionStatus?.invoke(currentBluetoothConnectionStatus)
+      showMessage?.invoke("Exception: $e")
+    }
+  }
+
+  fun subscribeToMessages(
+    showMessage: (String) -> Unit,
+  ) {
+    this.showMessage = showMessage
   }
 
   fun subscribeToData(
     serialPortMessage: (String) -> Unit,
-    showMessage: (String) -> Unit,
+
     bluetoothDevices: (List<String>) -> Unit,
     bluetoothConnectionStatus: (Boolean) -> Unit,
     bluetoothDevicePosition: (Int) -> Unit,
   ) {
     this.serialPortMessage = serialPortMessage
-    this.showMessage = showMessage
     this.bluetoothDevices = bluetoothDevices
     this.bluetoothConnectionStatus = bluetoothConnectionStatus
     this.bluetoothDevicePosition = bluetoothDevicePosition
+    this.bluetoothConnectionStatus?.invoke(currentBluetoothConnectionStatus)
   }
 
   fun selectBluetoothDevice(position: Int) {

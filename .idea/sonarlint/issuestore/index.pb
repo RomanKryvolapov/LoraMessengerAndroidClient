@@ -1,8 +1,6 @@
 
 …
 Uapp/src/main/java/com/romankryvolapov/loramessenger/ui/chats/ChatMessagesViewModel.kt,8\d\8db84d8c4c96b3186b768d4bcd8947bf237a3b4e
-‡
-Wapp/src/main/java/com/romankryvolapov/loramessenger/ui/priv/PrivateMessagesViewModel.kt,9\2\92cf53eb969b1372a7aebab2df7a0b8582460e4b
 ‚
 Rapp/src/main/java/com/romankryvolapov/loramessenger/ui/raw/RawMessagesViewModel.kt,c\0\c08fa2e16ba775c7a91a2bed7fcce2ef6f72df73
 A
@@ -17,8 +15,6 @@ X
 app/build.gradle,f\4\f4a01d6a4fcb971362ec00a83903fd3902f52164
 P
  app/src/main/AndroidManifest.xml,8\c\8c55c3ccc257e5907959013f99656e4c8ec3903e
-Œ
-\app/src/main/java/com/romankryvolapov/loramessenger/ui/settings/PermissionRequestListener.kt,1\5\15ec250e84f4576e84ef97fda861983a5b21f7d8
 {
 Kapp/src/main/java/com/romankryvolapov/loramessenger/ui/main/PagerAdapter.kt,d\6\d62c12ee140be8612698159481b4dc5f241223a5
 }

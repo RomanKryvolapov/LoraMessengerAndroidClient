@@ -44,9 +44,6 @@ class SettingsViewModel(
   private var _bluetoothConnectionStatusFlow = MutableStateFlow(false)
   val bluetoothConnectionStatusFlow: StateFlow<Boolean> = _bluetoothConnectionStatusFlow
 
-  private var _showMessageFlow = MutableStateFlow<String?>(null)
-  val showMessageFlow: StateFlow<String?> = _showMessageFlow
-
   private var _connectionLogFlow = MutableStateFlow(listOf("", "", ""))
   val connectionLogFlow: StateFlow<List<String>> = _connectionLogFlow
 
@@ -88,7 +85,6 @@ class SettingsViewModel(
           }
         },
         bluetoothConnectionStatus = { _bluetoothConnectionStatusFlow.value = it },
-        showMessage = { _showMessageFlow.value = it },
         bluetoothDevices = { _bluetoothDevicesFlow.value = it },
         bluetoothDevicePosition = { _bluetoothDevicePositionFlow.value = it },
       )
@@ -103,9 +99,5 @@ class SettingsViewModel(
 
   }
 
-  fun clearMessage() {
-    viewModelScope.launch(dispatcherIO) {
-      _showMessageFlow.value = null
-    }
-  }
+
 }

@@ -7,14 +7,18 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.lifecycleScope
 import androidx.viewpager2.widget.ViewPager2
 import com.romankryvolapov.loramessenger.R
 import com.romankryvolapov.loramessenger.databinding.ActivityMainBinding
+import com.romankryvolapov.loramessenger.helpers.launch
+import com.romankryvolapov.loramessenger.helpers.showMessageSnackBar
 import com.romankryvolapov.loramessenger.ui.chats.ChatMessagesFragment
 import com.romankryvolapov.loramessenger.ui.priv.PrivateMessagesFragment
 import com.romankryvolapov.loramessenger.ui.raw.RawMessagesFragment
 import com.romankryvolapov.loramessenger.ui.settings.PermissionRequestListener
 import com.romankryvolapov.loramessenger.ui.settings.SettingsFragment
+import kotlinx.coroutines.flow.onEach
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.component.KoinComponent
 
@@ -46,6 +50,7 @@ class MainActivity : AppCompatActivity(), KoinComponent {
     super.onCreate(savedInstanceState)
     setupView()
     requestPermissions()
+    subscribeToViewModel()
   }
 
   private fun setupView() {
@@ -92,7 +97,7 @@ class MainActivity : AppCompatActivity(), KoinComponent {
       }
       true
     }
-    viewModel.setupBluetoothHelper()
+    viewModel.setupBluetoothHelper(this)
   }
 
   fun openTab(id: Int) {
@@ -134,6 +139,13 @@ class MainActivity : AppCompatActivity(), KoinComponent {
 
   fun setPermissionRequestListener(permissionRequestListener: PermissionRequestListener) {
     this.permissionRequestListener = permissionRequestListener
+  }
+
+  private fun subscribeToViewModel() {
+    viewModel.showMessageFlow.onEach {
+      binding?.root.showMessageSnackBar(it)
+      viewModel.clearMessage()
+    }.launch(lifecycleScope)
   }
 
 }

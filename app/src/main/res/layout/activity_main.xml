@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+		xmlns:app="http://schemas.android.com/apk/res-auto"
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		>
+
+	<androidx.viewpager2.widget.ViewPager2
+			android:id="@+id/viewPager"
+			android:layout_width="0dp"
+			android:layout_height="0dp"
+			android:background="@color/black_2"
+			android:orientation="horizontal"
+			android:visibility="visible"
+			app:layout_constraintBottom_toTopOf="@id/bottomNavigation"
+			app:layout_constraintEnd_toEndOf="parent"
+			app:layout_constraintStart_toStartOf="parent"
+			app:layout_constraintTop_toTopOf="parent"
+			/>
+
+	<com.google.android.material.bottomnavigation.BottomNavigationView
+			android:id="@+id/bottomNavigation"
+			android:layout_width="0dp"
+			android:layout_height="@dimen/bottom_navigation_height"
+			android:layout_gravity="center"
+			android:orientation="horizontal"
+			android:textAlignment="center"
+			app:backgroundTint="@color/black_1"
+			app:flow_verticalAlign="center"
+			app:itemBackground="@color/black_1"
+			app:itemHorizontalTranslationEnabled="true"
+			app:itemPaddingBottom="@dimen/bottom_navigation_text_margin"
+			app:itemTextColor="@color/black_12"
+			app:labelVisibilityMode="labeled"
+			app:layout_constraintBottom_toBottomOf="parent"
+			app:layout_constraintEnd_toEndOf="parent"
+			app:layout_constraintStart_toStartOf="parent"
+			app:menu="@menu/menu_main_tabs"
+			app:itemTextAppearanceActive="@style/BottomNavigationView.Active"
+			app:itemTextAppearanceInactive="@style/BottomNavigationView"
+			/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

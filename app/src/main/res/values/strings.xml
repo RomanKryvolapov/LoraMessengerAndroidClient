@@ -1,0 +1,26 @@
+<resources>
+	<string name="app_name">Lora Messenger</string>
+	<string name="main_menu_raw_messages">RAW</string>
+	<string name="main_menu_raw_messages_title">Raw messages</string>
+	<string name="main_menu_chat_messages">CHATS</string>
+	<string name="main_menu_chat_messages_title">Chat messages</string>
+	<string name="main_menu_private_messages">PRIVATE</string>
+	<string name="main_menu_private_messages_title">Private messages</string>
+	<string name="main_menu_settings">SETTINGS</string>
+
+
+	<!-- Settings -->
+	<string name="fragment_settings_title">Settings</string>
+
+	<string name="fragment_settings_lora_title">Lora settings</string>
+
+	<string name="fragment_settings_lora_channel"><b>Channel.</b> For communication between modules, must be the same on both modules. Available channels and frequency:\nE22–400T30D: 0–83 Frequency= 410.125 + CH*1M\nE22–900T30D: 0–80 Frequency= 850.125 + CH*1M\nE22–230T30D: 0–83 Frequency = 220.125 + CH*0.25M\nDefault channel: 40</string>
+
+	<string name="fragment_settings_lora_key"><b>Encryption key.</b> For communication between modules, must be the same on both modules.\nMust be 0–65535\nDefault key: 0</string>
+
+	<string name="fragment_settings_lora_address"><b>Address.</b> For communication between modules, must be the same on both modules. 65535 is used for broadcast messages. With this address, the module will receive all messages, and messages sent from this module will be accepted by all other modules, regardless of the address settings on them.\nMust be 0–65535\nDefault address: 65535</string>
+
+	<string name="fragment_settings_lora_net_id">NetID</string>
+	<string name="fragment_settings_lora_rate">Rate</string>
+
+</resources>

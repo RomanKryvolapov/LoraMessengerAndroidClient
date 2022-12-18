@@ -1,0 +1,105 @@
+plugins {
+  id 'com.android.application'
+  id 'kotlin-android'
+  id 'kotlin-kapt'
+  id 'kotlin-parcelize'
+  id 'androidx.navigation.safeargs.kotlin'
+}
+
+android {
+  namespace 'com.romankryvolapov.loramessenger'
+  compileSdk 33
+  compileSdkVersion 33
+  buildToolsVersion "30.0.3"
+
+  defaultConfig {
+    applicationId "com.romankryvolapov.loramessenger"
+    minSdk 23
+    minSdkVersion 23
+    targetSdk 33
+    targetSdkVersion 33
+    versionCode 1
+    versionName "1.0"
+    multiDexEnabled true
+    testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+  }
+
+  buildTypes {
+    debug {
+      versionNameSuffix "-debug"
+      minifyEnabled false
+      shrinkResources false
+      debuggable true
+      jniDebuggable false
+      renderscriptDebuggable false
+    }
+    release {
+      versionNameSuffix ""
+      minifyEnabled false
+      shrinkResources false
+      debuggable false
+      jniDebuggable false
+      renderscriptDebuggable false
+      proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+    }
+  }
+  compileOptions {
+    sourceCompatibility JavaVersion.VERSION_11
+    targetCompatibility JavaVersion.VERSION_11
+  }
+  kotlinOptions {
+    jvmTarget = JavaVersion.VERSION_11
+  }
+  buildFeatures {
+    viewBinding true
+  }
+}
+
+dependencies {
+
+  // Kotlin
+  implementation "org.jetbrains.kotlin:kotlin-stdlib:1.7.21"
+  implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.7.21"
+
+  // Base
+  implementation 'androidx.core:core-ktx:1.9.0'
+  implementation 'androidx.appcompat:appcompat:1.5.1'
+  implementation 'com.google.android.material:material:1.7.0'
+
+  //  Koin
+  implementation 'io.insert-koin:koin-android:3.3.1'
+  implementation 'io.insert-koin:koin-android-compat:3.3.1'
+  implementation 'io.insert-koin:koin-gradle-plugin:3.3.0'
+  implementation 'io.insert-koin:koin-androidx-workmanager:3.3.1'
+
+  // Ui
+  implementation "com.google.android.material:material:1.7.0"
+  implementation "androidx.appcompat:appcompat:1.5.1"
+  implementation "androidx.constraintlayout:constraintlayout:2.1.4"
+  implementation "androidx.recyclerview:recyclerview:1.2.1"
+  implementation "androidx.recyclerview:recyclerview-selection:1.1.0"
+  implementation "androidx.viewpager2:viewpager2:1.0.0"
+
+  // Androidx preference
+  implementation "androidx.preference:preference-ktx:1.2.0"
+  implementation "androidx.security:security-crypto:1.0.0"
+
+  // Database
+  implementation "androidx.room:room-runtime:2.4.3"
+  implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+  kapt "androidx.room:room-compiler:2.4.3"
+  implementation "androidx.room:room-ktx:2.4.3"
+  implementation "androidx.room:room-rxjava2:2.4.3"
+  implementation "android.arch.lifecycle:extensions:1.1.1"
+  implementation "androidx.room:room-runtime:2.4.3"
+  annotationProcessor "androidx.room:room-compiler:2.4.3"
+
+  //  Navigation
+  implementation 'androidx.navigation:navigation-fragment-ktx:2.5.3'
+  implementation 'androidx.navigation:navigation-ui-ktx:2.5.3'
+
+  //  testImplementation 'junit:junit:4.13.2'
+  //  androidTestImplementation 'androidx.test.ext:junit:1.1.4'
+  //  androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.0'
+
+}

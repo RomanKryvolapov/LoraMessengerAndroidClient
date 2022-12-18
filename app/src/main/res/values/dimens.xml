@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+	<dimen name="title_height">42dp</dimen>
+	<dimen name="bottom_navigation_height">42dp</dimen>
+	<dimen name="bottom_navigation_text_margin">16dp</dimen>
+</resources>

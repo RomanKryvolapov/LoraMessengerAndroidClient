@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<color name="purple_200">#FFBB86FC</color>
+	<color name="purple_500">#FF6200EE</color>
+	<color name="purple_700">#FF3700B3</color>
+	<color name="teal_200">#FF03DAC5</color>
+	<color name="teal_700">#FF018786</color>
+	<color name="black_0">#FF000000</color>
+	<color name="black_1">#FF101010</color>
+	<color name="black_2">#FF202020</color>
+	<color name="black_3">#FF303030</color>
+	<color name="black_4">#FF404040</color>
+	<color name="black_5">#FF505050</color>
+	<color name="black_6">#FF606060</color>
+	<color name="black_7">#FF707070</color>
+	<color name="black_8">#FF808080</color>
+	<color name="black_9">#FF909090</color>
+	<color name="black_10">#FFA0A0A0</color>
+	<color name="black_11">#FFB0B0B0</color>
+	<color name="black_12">#FFC0C0C0</color>
+	<color name="white">#FFFFFFFF</color>
+
+	<color name="blue">#2C71FF</color>
+	<color name="yellow">#FED236</color>
+	<color name="purple">#A661FF</color>
+	<color name="green">#4EFF31</color>
+	<color name="red">#FF2B44</color>
+	<color name="mint">#24FFA3</color>
+	<color name="violet">#7451FF</color>
+	<color name="pink">#FF1A95</color>
+	<color name="toxic_yellow">#D2FF51</color>
+	<color name="light_blue">#53CBFF</color>
+	<color name="brown">#E88741</color>
+	<color name="turquoise">#3CFFFF</color>
+	<color name="purple_2">#BB29FF</color>
+	<color name="light_brown">#FFCBAD</color>
+	<color name="light_pink">#FF619A</color>
+</resources>

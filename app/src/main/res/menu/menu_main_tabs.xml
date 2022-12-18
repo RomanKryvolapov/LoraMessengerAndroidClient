@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+	<item
+			android:id="@+id/tab_raw_messages"
+			android:title="@string/main_menu_raw_messages" />
+	<item
+			android:id="@+id/tab_chat_messages"
+			android:title="@string/main_menu_chat_messages" />
+	<item
+			android:id="@+id/tab_private_messages"
+			android:title="@string/main_menu_private_messages" />
+	<item
+			android:id="@+id/tab_settings"
+			android:title="@string/main_menu_settings" />
+</menu>

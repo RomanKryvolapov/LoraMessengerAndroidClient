@@ -1,0 +1,422 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+		xmlns:app="http://schemas.android.com/apk/res-auto"
+		xmlns:tools="http://schemas.android.com/tools"
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		android:background="@color/black_2"
+		android:fitsSystemWindows="true"
+		android:orientation="vertical"
+		>
+
+	<FrameLayout
+			android:id="@+id/frameLayout"
+			android:layout_width="match_parent"
+			android:layout_height="@dimen/title_height"
+			android:background="@color/black_1"
+			>
+
+		<TextView
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_gravity="center"
+				android:layout_marginBottom="0dp"
+				android:layout_marginEnd="0dp"
+				android:text="@string/fragment_settings_title"
+				android:textColor="@color/black_12"
+				/>
+
+	</FrameLayout>
+
+	<androidx.core.widget.NestedScrollView
+			android:layout_width="match_parent"
+			android:layout_height="match_parent"
+			android:fillViewport="true"
+			>
+
+		<LinearLayout
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:orientation="vertical"
+				>
+
+			<LinearLayout
+					android:layout_width="match_parent"
+					android:layout_height="38dp"
+					android:layout_marginEnd="16dp"
+					android:layout_marginStart="16dp"
+					android:layout_marginTop="16dp"
+					android:orientation="horizontal"
+					>
+
+				<TextView
+						android:layout_width="0dp"
+						android:layout_height="wrap_content"
+						android:layout_weight="1"
+						android:ellipsize="end"
+						android:gravity="start|center_vertical"
+						android:singleLine="true"
+						android:text="Bluetooth"
+						android:textColor="@color/black_12"
+						android:textSize="14sp"
+						/>
+
+				<androidx.appcompat.widget.AppCompatButton
+						android:id="@+id/buttonSearchBluetoothDevices"
+						android:layout_width="0dp"
+						android:layout_height="match_parent"
+						android:layout_marginEnd="4dp"
+						android:layout_weight="1"
+						android:paddingBottom="0dp"
+						android:paddingEnd="12dp"
+						android:paddingStart="12dp"
+						android:paddingTop="0dp"
+						android:singleLine="true"
+						android:text="Search"
+						android:textAllCaps="false"
+						android:textSize="14sp"
+						style="@style/DefaultButtonStyle"
+						/>
+
+				<androidx.appcompat.widget.AppCompatButton
+						android:id="@+id/buttonConnectToBluetoothDevice"
+						android:layout_width="0dp"
+						android:layout_height="match_parent"
+						android:layout_marginStart="4dp"
+						android:layout_weight="1"
+						android:paddingBottom="0dp"
+						android:paddingEnd="12dp"
+						android:paddingStart="12dp"
+						android:paddingTop="0dp"
+						android:singleLine="true"
+						android:text="Connect"
+						android:textAllCaps="false"
+						android:textSize="14sp"
+						style="@style/DefaultButtonStyle"
+						/>
+
+			</LinearLayout>
+			<androidx.appcompat.widget.AppCompatSpinner
+					android:id="@+id/spinnerBluetoothDevices"
+					android:layout_width="match_parent"
+					android:layout_height="38dp"
+					android:layout_gravity="start|center_vertical"
+					android:layout_marginEnd="16dp"
+					android:layout_marginStart="16dp"
+					android:layout_marginTop="4dp"
+					/>
+			<LinearLayout
+					android:layout_width="match_parent"
+					android:layout_height="38dp"
+					android:layout_marginEnd="16dp"
+					android:layout_marginStart="16dp"
+					android:layout_marginTop="4dp"
+					android:orientation="horizontal"
+					>
+
+				<TextView
+						android:layout_width="0dp"
+						android:layout_height="match_parent"
+						android:layout_weight="1"
+						android:ellipsize="end"
+						android:gravity="start|center_vertical"
+						android:singleLine="true"
+						android:text="@string/fragment_settings_lora_title"
+						android:textColor="@color/black_12"
+						android:textSize="14sp"
+						/>
+
+				<androidx.appcompat.widget.AppCompatButton
+						android:id="@+id/buttonGetLoraSettings"
+						android:layout_width="0dp"
+						android:layout_height="match_parent"
+						android:layout_marginEnd="4dp"
+						android:layout_weight="1"
+						android:paddingBottom="0dp"
+						android:paddingEnd="12dp"
+						android:paddingStart="12dp"
+						android:paddingTop="0dp"
+						android:singleLine="true"
+						android:text="Get settings"
+						android:textAllCaps="false"
+						android:textSize="14sp"
+						style="@style/DefaultButtonStyle"
+						/>
+
+				<androidx.appcompat.widget.AppCompatButton
+						android:id="@+id/buttonSetDefaultLoraSettings"
+						android:layout_width="0dp"
+						android:layout_height="match_parent"
+						android:layout_marginStart="4dp"
+						android:layout_weight="1"
+						android:paddingBottom="0dp"
+						android:paddingEnd="12dp"
+						android:paddingStart="12dp"
+						android:paddingTop="0dp"
+						android:singleLine="true"
+						android:text="Set default"
+						android:textAllCaps="false"
+						android:textSize="14sp"
+						style="@style/DefaultButtonStyle"
+						/>
+
+			</LinearLayout>
+			<LinearLayout
+					android:layout_width="match_parent"
+					android:layout_height="38dp"
+					android:layout_marginEnd="16dp"
+					android:layout_marginStart="16dp"
+					android:layout_marginTop="4dp"
+					android:orientation="horizontal"
+					>
+
+				<TextView
+						android:layout_width="0dp"
+						android:layout_height="match_parent"
+						android:layout_weight="4"
+						android:ellipsize="end"
+						android:gravity="start|center_vertical"
+						android:singleLine="true"
+						android:text="Current channel:"
+						android:textColor="@color/black_12"
+						android:textSize="12sp"
+						/>
+
+				<TextView
+						android:layout_width="0dp"
+						android:layout_height="match_parent"
+						android:layout_weight="4"
+						android:gravity="center|center_vertical"
+						android:singleLine="true"
+						android:text="40"
+						android:textColor="@color/black_12"
+						android:textSize="12sp"
+						/>
+
+				<com.google.android.material.textfield.TextInputLayout
+						android:id="@+id/textInputSetNewLoraChannel"
+						android:layout_width="0dp"
+						android:layout_height="wrap_content"
+						android:layout_weight="5"
+						app:endIconDrawable="@drawable/ic_check"
+						style="@style/DefaultTextInputLayoutStyle"
+						>
+
+					<androidx.appcompat.widget.AppCompatEditText
+							android:id="@+id/editTextSetNewLoraChannel"
+							android:layout_width="match_parent"
+							android:layout_height="match_parent"
+							android:ems="10"
+							android:gravity="center"
+							android:inputType="number"
+							android:maxLength="2"
+							android:textSize="12sp"
+							style="@style/DefaultEditTextStyle"
+							/>
+
+				</com.google.android.material.textfield.TextInputLayout>
+
+			</LinearLayout>
+			<TextView
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:layout_marginEnd="16dp"
+					android:layout_marginStart="16dp"
+					android:layout_marginTop="4dp"
+					android:text="@string/fragment_settings_lora_channel"
+					android:textColor="@color/black_8"
+					android:textSize="12sp"
+					/>
+			<LinearLayout
+					android:layout_width="match_parent"
+					android:layout_height="38dp"
+					android:layout_marginEnd="16dp"
+					android:layout_marginStart="16dp"
+					android:layout_marginTop="4dp"
+					android:orientation="horizontal"
+					>
+
+				<TextView
+						android:layout_width="0dp"
+						android:layout_height="match_parent"
+						android:layout_weight="4"
+						android:ellipsize="end"
+						android:gravity="start|center_vertical"
+						android:singleLine="true"
+						android:text="Current key:"
+						android:textColor="@color/black_12"
+						android:textSize="12sp"
+						/>
+
+				<TextView
+						android:layout_width="0dp"
+						android:layout_height="match_parent"
+						android:layout_weight="4"
+						android:gravity="center|center_vertical"
+						android:singleLine="true"
+						android:text="0"
+						android:textColor="@color/black_12"
+						android:textSize="12sp"
+						/>
+
+				<com.google.android.material.textfield.TextInputLayout
+						android:id="@+id/textInputSetNewLoraKey"
+						android:layout_width="0dp"
+						android:layout_height="wrap_content"
+						android:layout_weight="5"
+						app:endIconDrawable="@drawable/ic_check"
+						style="@style/DefaultTextInputLayoutStyle"
+						>
+
+					<androidx.appcompat.widget.AppCompatEditText
+							android:id="@+id/editTextSetNewLoraKey"
+							android:layout_width="match_parent"
+							android:layout_height="match_parent"
+							android:ems="10"
+							android:gravity="center"
+							android:inputType="number"
+							android:maxLength="5"
+							android:textSize="12sp"
+							style="@style/DefaultEditTextStyle"
+							/>
+
+				</com.google.android.material.textfield.TextInputLayout>
+
+			</LinearLayout>
+			<TextView
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:layout_marginEnd="16dp"
+					android:layout_marginStart="16dp"
+					android:layout_marginTop="4dp"
+					android:text="@string/fragment_settings_lora_key"
+					android:textColor="@color/black_8"
+					android:textSize="12sp"
+					/>
+			<TextView
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:layout_marginEnd="16dp"
+					android:layout_marginStart="16dp"
+					android:layout_marginTop="4dp"
+					android:text="@string/fragment_settings_lora_address"
+					android:textColor="@color/black_8"
+					android:textSize="12sp"
+					/>
+			<LinearLayout
+					android:layout_width="match_parent"
+					android:layout_height="38dp"
+					android:layout_marginEnd="16dp"
+					android:layout_marginStart="16dp"
+					android:layout_marginTop="4dp"
+					android:orientation="horizontal"
+					>
+
+				<TextView
+						android:layout_width="0dp"
+						android:layout_height="match_parent"
+						android:layout_weight="4"
+						android:ellipsize="end"
+						android:gravity="start|center_vertical"
+						android:singleLine="true"
+						android:text="Current address:"
+						android:textColor="@color/black_12"
+						android:textSize="12sp"
+						/>
+
+				<TextView
+						android:layout_width="0dp"
+						android:layout_height="match_parent"
+						android:layout_weight="4"
+						android:gravity="center|center_vertical"
+						android:singleLine="true"
+						android:text="65535"
+						android:textColor="@color/black_12"
+						android:textSize="12sp"
+						/>
+
+				<com.google.android.material.textfield.TextInputLayout
+						android:id="@+id/textInputSetNewLoraAddress"
+						android:layout_width="0dp"
+						android:layout_height="wrap_content"
+						android:layout_weight="5"
+						app:endIconDrawable="@drawable/ic_check"
+						style="@style/DefaultTextInputLayoutStyle"
+						>
+
+					<androidx.appcompat.widget.AppCompatEditText
+							android:id="@+id/editTextSetNewLoraAddress"
+							android:layout_width="match_parent"
+							android:layout_height="match_parent"
+							android:ems="10"
+							android:gravity="center"
+							android:inputType="number"
+							android:maxLength="5"
+							android:textSize="12sp"
+							style="@style/DefaultEditTextStyle"
+							/>
+
+				</com.google.android.material.textfield.TextInputLayout>
+
+			</LinearLayout>
+
+			<TextView
+					android:layout_width="match_parent"
+					android:layout_height="38dp"
+					android:layout_marginEnd="16dp"
+					android:layout_marginStart="16dp"
+					android:layout_marginTop="4dp"
+					android:ellipsize="end"
+					android:gravity="start|center_vertical"
+					android:singleLine="true"
+					android:text="Log with Lora module:"
+					android:textColor="@color/black_12"
+					android:textSize="12sp"
+					/>
+
+			<TextView
+					android:id="@+id/textViewLogMessageLine0"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:layout_marginEnd="16dp"
+					android:layout_marginStart="16dp"
+					android:layout_marginTop="4dp"
+					android:ellipsize="end"
+					android:gravity="start|center_vertical"
+					android:singleLine="false"
+					android:textColor="@color/black_8"
+					android:textSize="12sp"
+					/>
+
+			<TextView
+					android:id="@+id/textViewLogMessageLine1"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:layout_marginEnd="16dp"
+					android:layout_marginStart="16dp"
+					android:ellipsize="end"
+					android:gravity="start|center_vertical"
+					android:singleLine="false"
+					android:textColor="@color/black_8"
+					android:textSize="12sp"
+					/>
+
+			<TextView
+					android:id="@+id/textViewLogMessageLine2"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:layout_marginBottom="32dp"
+					android:layout_marginEnd="16dp"
+					android:layout_marginStart="16dp"
+					android:ellipsize="end"
+					android:gravity="start|center_vertical"
+					android:singleLine="false"
+					android:textColor="@color/black_8"
+					android:textSize="12sp"
+					/>
+
+		</LinearLayout>
+
+	</androidx.core.widget.NestedScrollView>
+
+</LinearLayout>

@@ -2,6 +2,7 @@ package com.romankryvolapov.loramessenger.ui.settings
 
 import android.Manifest.permission.BLUETOOTH_CONNECT
 import android.Manifest.permission.BLUETOOTH_SCAN
+import android.annotation.SuppressLint
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -32,6 +33,7 @@ class SettingsFragment : Fragment(), PermissionRequestListener {
   private var binding: FragmentSettingsBinding? = null
   private val viewModel: SettingsViewModel by viewModel()
   private var bluetoothDevicesAdapter: ArrayAdapter<String>? = null
+  private var transmitterReceiverSpeedAdapter: ArrayAdapter<CharSequence>? = null
 
   override fun onCreateView(
     inflater: LayoutInflater,
@@ -50,11 +52,32 @@ class SettingsFragment : Fragment(), PermissionRequestListener {
   }
 
 
+  @SuppressLint("ResourceType")
   private fun setupView() {
     (activity as MainActivity).setPermissionRequestListener(this)
-    bluetoothDevicesAdapter = ArrayAdapter<String>(requireContext(), R.layout.list_item_dropdown)
+    bluetoothDevicesAdapter = ArrayAdapter<String>(
+      requireContext(),
+      R.layout.list_item_dropdown
+    )
     binding?.spinnerBluetoothDevices?.adapter = bluetoothDevicesAdapter
     binding?.spinnerBluetoothDevices?.onItemSelectedListener =
+      object : AdapterView.OnItemSelectedListener {
+        override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+          viewModel.selectBluetoothDevice(position)
+        }
+
+        override fun onNothingSelected(parent: AdapterView<*>?) {
+          // NO
+        }
+      }
+    transmitterReceiverSpeedAdapter = ArrayAdapter.createFromResource(
+      requireContext(),
+      R.array.transmitter_receiver_speed,
+      R.layout.list_item_dropdown
+    )
+    binding?.spinnerTransmitterReceiverSpeed?.adapter = transmitterReceiverSpeedAdapter
+    binding?.spinnerTransmitterReceiverSpeed?.setSelection(2)
+    binding?.spinnerTransmitterReceiverSpeed?.onItemSelectedListener =
       object : AdapterView.OnItemSelectedListener {
         override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
           viewModel.selectBluetoothDevice(position)

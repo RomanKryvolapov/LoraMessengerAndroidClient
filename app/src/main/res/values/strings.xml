@@ -15,12 +15,23 @@
 	<string name="fragment_settings_lora_title">Lora settings</string>
 
 	<string name="fragment_settings_lora_channel"><b>Channel.</b> For communication between modules, must be the same on both modules. Available channels and frequency:\nE22–400T30D: 0–83 Frequency= 410.125 + CH*1M\nE22–900T30D: 0–80 Frequency= 850.125 + CH*1M\nE22–230T30D: 0–83 Frequency = 220.125 + CH*0.25M\nDefault channel: 40</string>
-
 	<string name="fragment_settings_lora_key"><b>Encryption key.</b> For communication between modules, must be the same on both modules.\nMust be 0–65535\nDefault key: 0</string>
-
 	<string name="fragment_settings_lora_address"><b>Address.</b> For communication between modules, must be the same on both modules. 65535 is used for broadcast messages. With this address, the module will receive all messages, and messages sent from this module will be accepted by all other modules, regardless of the address settings on them.\nMust be 0–65535\nDefault address: 65535</string>
+	<string name="fragment_settings_lora_transmitter_receiver_speed"><b>Transmitter and receiver speed.</b>The higher the speed, the shorter the transmission distance\nDefault speed: 2400</string>
+
 
 	<string name="fragment_settings_lora_net_id">NetID</string>
 	<string name="fragment_settings_lora_rate">Rate</string>
+
+	<string-array name="transmitter_receiver_speed">
+		<item>300</item>
+		<item>1200</item>
+		<item>2400 (def)</item>
+		<item>4800</item>
+		<item>9600</item>
+		<item>19200</item>
+		<item>38400</item>
+		<item>62500</item>
+	</string-array>
 
 </resources>

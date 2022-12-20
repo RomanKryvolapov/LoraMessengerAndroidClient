@@ -184,7 +184,7 @@ class BluetoothHelper(
   }
 
   fun selectBluetoothDevice(position: Int) {
-    if (devices.size >= position) {
+    if (devices.size > position) {
       selectedBluetoothDevice = devices[position]
     }
   }

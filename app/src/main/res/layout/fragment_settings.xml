@@ -96,6 +96,7 @@
 						/>
 
 			</LinearLayout>
+
 			<androidx.appcompat.widget.AppCompatSpinner
 					android:id="@+id/spinnerBluetoothDevices"
 					android:layout_width="match_parent"
@@ -104,7 +105,64 @@
 					android:layout_marginEnd="16dp"
 					android:layout_marginStart="16dp"
 					android:layout_marginTop="4dp"
+					android:textAlignment="viewStart"
 					/>
+
+			<TextView
+					android:layout_width="match_parent"
+					android:layout_height="38dp"
+					android:layout_marginEnd="16dp"
+					android:layout_marginStart="16dp"
+					android:layout_marginTop="4dp"
+					android:ellipsize="end"
+					android:gravity="start|center_vertical"
+					android:singleLine="true"
+					android:text="Log with Lora module:"
+					android:textColor="@color/black_12"
+					android:textSize="12sp"
+					/>
+
+			<TextView
+					android:id="@+id/textViewLogMessageLine0"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:layout_marginEnd="16dp"
+					android:layout_marginStart="16dp"
+					android:layout_marginTop="4dp"
+					android:ellipsize="end"
+					android:gravity="start|center_vertical"
+					android:singleLine="false"
+					android:textColor="@color/black_8"
+					android:textSize="12sp"
+					/>
+
+			<TextView
+					android:id="@+id/textViewLogMessageLine1"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:layout_marginEnd="16dp"
+					android:layout_marginStart="16dp"
+					android:ellipsize="end"
+					android:gravity="start|center_vertical"
+					android:singleLine="false"
+					android:textColor="@color/black_8"
+					android:textSize="12sp"
+					/>
+
+			<TextView
+					android:id="@+id/textViewLogMessageLine2"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:layout_marginBottom="32dp"
+					android:layout_marginEnd="16dp"
+					android:layout_marginStart="16dp"
+					android:ellipsize="end"
+					android:gravity="start|center_vertical"
+					android:singleLine="false"
+					android:textColor="@color/black_8"
+					android:textSize="12sp"
+					/>
+
 			<LinearLayout
 					android:layout_width="match_parent"
 					android:layout_height="38dp"
@@ -161,6 +219,7 @@
 						/>
 
 			</LinearLayout>
+
 			<TextView
 					android:layout_width="match_parent"
 					android:layout_height="wrap_content"
@@ -171,6 +230,7 @@
 					android:textColor="@color/black_8"
 					android:textSize="12sp"
 					/>
+
 			<LinearLayout
 					android:layout_width="match_parent"
 					android:layout_height="38dp"
@@ -227,6 +287,7 @@
 				</com.google.android.material.textfield.TextInputLayout>
 
 			</LinearLayout>
+
 			<TextView
 					android:layout_width="match_parent"
 					android:layout_height="wrap_content"
@@ -237,6 +298,7 @@
 					android:textColor="@color/black_8"
 					android:textSize="12sp"
 					/>
+
 			<LinearLayout
 					android:layout_width="match_parent"
 					android:layout_height="38dp"
@@ -293,6 +355,7 @@
 				</com.google.android.material.textfield.TextInputLayout>
 
 			</LinearLayout>
+
 			<TextView
 					android:layout_width="match_parent"
 					android:layout_height="wrap_content"
@@ -360,60 +423,66 @@
 				</com.google.android.material.textfield.TextInputLayout>
 
 			</LinearLayout>
+
 			<TextView
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:layout_marginEnd="16dp"
+					android:layout_marginStart="16dp"
+					android:layout_marginTop="4dp"
+					android:text="@string/fragment_settings_lora_transmitter_receiver_speed"
+					android:textColor="@color/black_8"
+					android:textSize="12sp"
+					/>
+
+			<LinearLayout
 					android:layout_width="match_parent"
 					android:layout_height="38dp"
 					android:layout_marginEnd="16dp"
 					android:layout_marginStart="16dp"
 					android:layout_marginTop="4dp"
-					android:ellipsize="end"
-					android:gravity="start|center_vertical"
-					android:singleLine="true"
-					android:text="Log with Lora module:"
-					android:textColor="@color/black_12"
-					android:textSize="12sp"
-					/>
+					android:orientation="horizontal"
+					>
 
-			<TextView
-					android:id="@+id/textViewLogMessageLine0"
-					android:layout_width="match_parent"
-					android:layout_height="wrap_content"
-					android:layout_marginEnd="16dp"
-					android:layout_marginStart="16dp"
-					android:layout_marginTop="4dp"
-					android:ellipsize="end"
-					android:gravity="start|center_vertical"
-					android:singleLine="false"
-					android:textColor="@color/black_8"
-					android:textSize="12sp"
-					/>
+				<TextView
+						android:layout_width="0dp"
+						android:layout_height="match_parent"
+						android:layout_weight="4"
+						android:ellipsize="end"
+						android:gravity="start|center_vertical"
+						android:singleLine="true"
+						android:text="Current speed:"
+						android:textColor="@color/black_12"
+						android:textSize="12sp"
+						/>
 
-			<TextView
-					android:id="@+id/textViewLogMessageLine1"
-					android:layout_width="match_parent"
-					android:layout_height="wrap_content"
-					android:layout_marginEnd="16dp"
-					android:layout_marginStart="16dp"
-					android:ellipsize="end"
-					android:gravity="start|center_vertical"
-					android:singleLine="false"
-					android:textColor="@color/black_8"
-					android:textSize="12sp"
-					/>
+				<TextView
+						android:layout_width="0dp"
+						android:layout_height="match_parent"
+						android:layout_weight="4"
+						android:gravity="center|center_vertical"
+						android:singleLine="true"
+						android:text="2400"
+						android:textColor="@color/black_12"
+						android:textSize="12sp"
+						/>
 
-			<TextView
-					android:id="@+id/textViewLogMessageLine2"
+				<androidx.appcompat.widget.AppCompatSpinner
+						android:id="@+id/spinnerTransmitterReceiverSpeed"
+						android:layout_width="0dp"
+						android:layout_height="match_parent"
+						android:layout_gravity="start|center_vertical"
+						android:layout_weight="5"
+						android:textAlignment="viewStart"
+						/>
+
+			</LinearLayout>
+			<FrameLayout
 					android:layout_width="match_parent"
-					android:layout_height="wrap_content"
-					android:layout_marginBottom="32dp"
-					android:layout_marginEnd="16dp"
-					android:layout_marginStart="16dp"
-					android:ellipsize="end"
-					android:gravity="start|center_vertical"
-					android:singleLine="false"
-					android:textColor="@color/black_8"
-					android:textSize="12sp"
-					/>
+					android:layout_height="64dp"
+					>
+
+			</FrameLayout>
 
 		</LinearLayout>
 

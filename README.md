@@ -10,7 +10,7 @@
 <p>Made with CLion / Platformio.</p>
 <h3>Client for board:</h3>
 
-https://github.com/RomanKryvolapov/LoraMessengerAndroidClient
+https://github.com/RomanKryvolapov/LoraMessengerBoardClient
 
 <h3>Following commands are currently supported:</h3>
 <h4>SetChannel:...</h4>

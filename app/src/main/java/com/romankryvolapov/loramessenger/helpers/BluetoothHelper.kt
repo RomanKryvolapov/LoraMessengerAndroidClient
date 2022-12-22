@@ -6,8 +6,12 @@ import android.bluetooth.BluetoothManager
 import android.bluetooth.BluetoothSocket
 import android.content.Context
 import android.content.SharedPreferences
+import com.romankryvolapov.loramessenger.models.LoraSettings
+import com.romankryvolapov.loramessenger.models.LoraSettingsConst
 import kotlinx.coroutines.delay
 import java.io.DataInputStream
+import java.io.DataOutputStream
+import java.util.*
 
 class BluetoothHelper(
   private val preferences: SharedPreferences,
@@ -15,40 +19,97 @@ class BluetoothHelper(
 
   companion object {
     private const val LAST_BLUETOOTH_DEVICE_ADDRESS = "LAST_BLUETOOTH_DEVICE_ADDRESS"
+    private const val TIMEOUT_DELAY = 100L
+    private const val TIMEOUT_SET_SETTINGS_DELAY = 3000L
+    private const val TIMEOUT_GET_DATA_DELAY = 1000L
+    private const val TIMEOUT_ERROR_DELAY = 1000L
+    private const val TIMEOUT_EMPTY_DELAY = 1000L
+    private const val MAX_MESSAGE_SIZE = 256
   }
 
   private var socket: BluetoothSocket? = null
   private var devices: List<BluetoothDevice> = emptyList()
   private var selectedBluetoothDevice: BluetoothDevice? = null
   private var currentBluetoothConnectionStatus = false
-  private var currentSerialPortMessage = ""
+  private val currentLoraSettings = LoraSettings()
+  private var currentLoraOutputMessages: LinkedList<String> = LinkedList<String>()
 
   private var showMessage: ((String) -> Unit)? = null
   private var serialPortMessage: ((String) -> Unit)? = null
   private var bluetoothDevices: ((List<String>) -> Unit)? = null
   private var bluetoothConnectionStatus: ((Boolean) -> Unit)? = null
   private var bluetoothDevicePosition: ((Int) -> Unit)? = null
+  private var loraSettings: ((LoraSettings) -> Unit)? = null
 
   suspend fun setup() {
     while (true) {
       try {
         if (socket == null || socket?.isConnected != true) {
-          delay(500)
+          delay(TIMEOUT_EMPTY_DELAY)
         } else {
-          val buffer = ByteArray(256)
-          var bytes: Int
+          val buffer = ByteArray(MAX_MESSAGE_SIZE)
           val inputStream = socket?.inputStream
-//          val outputStream = socket?.outputStream
           val dataInputStream = DataInputStream(inputStream)
-//          val dataOutputStream = DataOutputStream(outputStream)
-          bytes = dataInputStream.read(buffer)
-          currentSerialPortMessage = String(buffer, 0, bytes).replace("\n", "").trim()
-          serialPortMessage?.invoke(currentSerialPortMessage)
-          delay(100)
+          val bytes = dataInputStream.read(buffer)
+          val currentMessage = String(buffer, 0, bytes)
+            .alphaNumericOnly()
+          if (currentMessage.isNotEmpty()) {
+            serialPortMessage?.invoke(currentMessage)
+            parseSerialPortMessageCommands(currentMessage)
+          }
+          if (currentLoraOutputMessages.isNotEmpty()) {
+            currentLoraOutputMessages.last.let { message ->
+              val outputStream = socket?.outputStream
+              val dataOutputStream = DataOutputStream(outputStream)
+              dataOutputStream.writeBytes(message)
+              serialPortMessage?.invoke(message)
+            }
+            currentLoraOutputMessages.removeLast()
+            delay(TIMEOUT_GET_DATA_DELAY)
+          } else {
+            delay(TIMEOUT_DELAY)
+          }
         }
       } catch (e: Exception) {
         showMessage?.invoke("Exception: $e")
-        delay(500)
+        delay(TIMEOUT_ERROR_DELAY)
+      }
+    }
+  }
+
+  private fun String.alphaNumericOnly(): String {
+    val regex = Regex("[^A-Za-z0-9:| ]")
+    return regex.replace(this, "")
+      .replace("|", "\n")
+  }
+
+  fun getLoraSettings() {
+    currentLoraOutputMessages.add(LoraSettingsConst.ALL_SETTINGS.getCommand)
+  }
+
+  suspend fun setLoraSettings(const: LoraSettingsConst, value: String) {
+    const.setCommand?.let {
+      currentLoraOutputMessages.add("${const.setCommand}$value")
+      delay(TIMEOUT_SET_SETTINGS_DELAY)
+      currentLoraOutputMessages.add(const.getCommand)
+    }
+  }
+
+  fun getLoraSetting(setting: String) {
+    currentLoraOutputMessages.add(setting)
+  }
+
+  private fun parseSerialPortMessageCommands(message: String) {
+    when {
+      message.startsWith("GetChannel:") -> {
+        message.replace("GetChannel:", "").let {
+          try {
+            currentLoraSettings.channel = Integer.parseInt(it)
+            loraSettings?.invoke(currentLoraSettings)
+          } catch (e: Exception) {
+            showMessage?.invoke("Exception: $e")
+          }
+        }
       }
     }
   }
@@ -170,17 +231,17 @@ class BluetoothHelper(
 
   fun subscribeToData(
     serialPortMessage: (String) -> Unit,
-
     bluetoothDevices: (List<String>) -> Unit,
     bluetoothConnectionStatus: (Boolean) -> Unit,
     bluetoothDevicePosition: (Int) -> Unit,
+    loraSettings: ((LoraSettings) -> Unit),
   ) {
     this.serialPortMessage = serialPortMessage
     this.bluetoothDevices = bluetoothDevices
     this.bluetoothConnectionStatus = bluetoothConnectionStatus
     this.bluetoothDevicePosition = bluetoothDevicePosition
+    this.loraSettings = loraSettings
     this.bluetoothConnectionStatus?.invoke(currentBluetoothConnectionStatus)
-    this.serialPortMessage?.invoke(currentSerialPortMessage)
   }
 
   fun selectBluetoothDevice(position: Int) {

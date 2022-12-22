@@ -2,18 +2,17 @@ package com.romankryvolapov.loramessenger.ui.settings
 
 import android.annotation.SuppressLint
 import android.content.Context
-import androidx.collection.CircularArray
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.romankryvolapov.loramessenger.helpers.BluetoothHelper
 import com.romankryvolapov.loramessenger.models.LoraSettings
+import com.romankryvolapov.loramessenger.models.LoraSettingsConst
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import java.util.*
-
 
 class SettingsViewModel(
   private val bluetoothHelper: BluetoothHelper,
@@ -23,17 +22,12 @@ class SettingsViewModel(
   private var connectOrDisconnectBluetoothDevice: Job? = null
   private var getPairedDevicesJob: Job? = null
   private var subscribeToBluetoothSerialJob: Job? = null
+  private var currentLog = StringBuffer()
 
-  private var loraSettings: LoraSettings? = null
+  private val circularArray: LinkedList<String> = LinkedList<String>()
 
-  private val circularArray: CircularArray<String> = CircularArray<String>(3).apply {
-    addFirst("")
-    addFirst("")
-    addFirst("")
-  }
-
-  private var _loraSettingsFlow = MutableStateFlow<LoraSettings?>(null)
-  val loraSettingsFlow: StateFlow<LoraSettings?> = _loraSettingsFlow
+  private var _loraSettingsFlow = MutableStateFlow(LoraSettings())
+  val loraSettingsFlow: StateFlow<LoraSettings> = _loraSettingsFlow
 
   private var _bluetoothDevicesFlow = MutableStateFlow<List<String>>(emptyList())
   val bluetoothDevicesFlow: StateFlow<List<String>> = _bluetoothDevicesFlow
@@ -44,8 +38,8 @@ class SettingsViewModel(
   private var _bluetoothConnectionStatusFlow = MutableStateFlow(false)
   val bluetoothConnectionStatusFlow: StateFlow<Boolean> = _bluetoothConnectionStatusFlow
 
-  private var _connectionLogFlow = MutableStateFlow(listOf("", "", ""))
-  val connectionLogFlow: StateFlow<List<String>> = _connectionLogFlow
+  private var _connectionLogFlow = MutableStateFlow("")
+  val connectionLogFlow: StateFlow<String> = _connectionLogFlow
 
   @SuppressLint("MissingPermission")
   fun getBluetoothDevices(context: Context) {
@@ -75,24 +69,32 @@ class SettingsViewModel(
     subscribeToBluetoothSerialJob = viewModelScope.launch(dispatcherIO) {
       bluetoothHelper.subscribeToData(
         serialPortMessage = { message ->
-          if (message.isNotEmpty() && message != "\n") {
-            circularArray.addFirst(message)
-            _connectionLogFlow.value = listOf<String>(
-              circularArray.get(0),
-              circularArray.get(1),
-              circularArray.get(2),
-            )
+          circularArray.add(message)
+          circularArray.forEach {
+            currentLog.append("$it\n")
           }
+          _connectionLogFlow.value = currentLog.toString()
+          if (circularArray.size >= 5) {
+            circularArray.removeFirst()
+          }
+          currentLog = StringBuffer()
         },
         bluetoothConnectionStatus = { _bluetoothConnectionStatusFlow.value = it },
         bluetoothDevices = { _bluetoothDevicesFlow.value = it },
         bluetoothDevicePosition = { _bluetoothDevicePositionFlow.value = it },
+        loraSettings = { _loraSettingsFlow.value = it },
       )
     }
   }
 
   fun getLoraSettings() {
+    bluetoothHelper.getLoraSettings()
+  }
 
+  fun setLoraSettings(const: LoraSettingsConst, value: String) {
+    viewModelScope.launch(dispatcherIO) {
+      bluetoothHelper.setLoraSettings(const, value)
+    }
   }
 
   fun setDefaultLoraSettings() {

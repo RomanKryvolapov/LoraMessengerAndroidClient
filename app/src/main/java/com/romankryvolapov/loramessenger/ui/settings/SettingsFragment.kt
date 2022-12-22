@@ -10,7 +10,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
-import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.core.content.ContextCompat
 import androidx.core.view.size
 import androidx.fragment.app.Fragment
@@ -18,7 +17,9 @@ import androidx.lifecycle.lifecycleScope
 import com.romankryvolapov.loramessenger.R
 import com.romankryvolapov.loramessenger.databinding.FragmentSettingsBinding
 import com.romankryvolapov.loramessenger.helpers.launch
+import com.romankryvolapov.loramessenger.helpers.setDrawableRightTouch
 import com.romankryvolapov.loramessenger.helpers.showMessageSnackBar
+import com.romankryvolapov.loramessenger.models.LoraSettingsConst
 import com.romankryvolapov.loramessenger.ui.main.MainActivity
 import kotlinx.coroutines.flow.onEach
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -50,7 +51,6 @@ class SettingsFragment : Fragment(), PermissionRequestListener {
     subscribeToViewModel()
     getBluetoothDevices()
   }
-
 
   @SuppressLint("ResourceType")
   private fun setupView() {
@@ -99,14 +99,25 @@ class SettingsFragment : Fragment(), PermissionRequestListener {
     binding?.buttonSearchBluetoothDevices?.setOnClickListener {
       getBluetoothDevices()
     }
+    binding?.editTextSetNewLoraChannel?.setDrawableRightTouch {
+      val value = binding?.editTextSetNewLoraChannel?.text?.toString()
+      if (value.isNullOrEmpty()) {
+        return@setDrawableRightTouch
+      }
+      viewModel.setLoraSettings(
+        const = LoraSettingsConst.CHANNEL,
+        value = value,
+      )
+    }
     viewModel.subscribeToData()
   }
 
   private fun subscribeToViewModel() {
-    viewModel.loraSettingsFlow.onEach {
-      it?.let {
-
-      }
+    viewModel.loraSettingsFlow.onEach { settings ->
+      settings.address?.let { binding?.textViewCurrentLoraAddress?.text = it.toString() }
+      settings.channel?.let { binding?.textViewCurrentLoraChannel?.text = it.toString() }
+      settings.airSpeed?.let { binding?.textViewCurrentLoraAirSpeed?.text = it.toString() }
+      settings.encryptionKey?.let { binding?.textViewCurrentLoraKey?.text = it.toString() }
     }.launch(lifecycleScope)
     viewModel.bluetoothDevicesFlow.onEach { list ->
       bluetoothDevicesAdapter?.clear()
@@ -127,9 +138,7 @@ class SettingsFragment : Fragment(), PermissionRequestListener {
       }
     }.launch(lifecycleScope)
     viewModel.connectionLogFlow.onEach { log ->
-      binding?.textViewLogMessageLine0?.text = log[2]
-      binding?.textViewLogMessageLine1?.text = log[1]
-      binding?.textViewLogMessageLine2?.text = log[0]
+      binding?.textViewLogMessage?.text = log
     }.launch(lifecycleScope)
   }
 

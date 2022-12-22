@@ -123,39 +123,12 @@
 					/>
 
 			<TextView
-					android:id="@+id/textViewLogMessageLine0"
+					android:id="@+id/textViewLogMessage"
 					android:layout_width="match_parent"
 					android:layout_height="wrap_content"
 					android:layout_marginEnd="16dp"
 					android:layout_marginStart="16dp"
 					android:layout_marginTop="4dp"
-					android:ellipsize="end"
-					android:gravity="start|center_vertical"
-					android:singleLine="false"
-					android:textColor="@color/black_8"
-					android:textSize="12sp"
-					/>
-
-			<TextView
-					android:id="@+id/textViewLogMessageLine1"
-					android:layout_width="match_parent"
-					android:layout_height="wrap_content"
-					android:layout_marginEnd="16dp"
-					android:layout_marginStart="16dp"
-					android:ellipsize="end"
-					android:gravity="start|center_vertical"
-					android:singleLine="false"
-					android:textColor="@color/black_8"
-					android:textSize="12sp"
-					/>
-
-			<TextView
-					android:id="@+id/textViewLogMessageLine2"
-					android:layout_width="match_parent"
-					android:layout_height="wrap_content"
-					android:layout_marginBottom="32dp"
-					android:layout_marginEnd="16dp"
-					android:layout_marginStart="16dp"
 					android:ellipsize="end"
 					android:gravity="start|center_vertical"
 					android:singleLine="false"
@@ -253,12 +226,13 @@
 						/>
 
 				<TextView
+						android:id="@+id/textViewCurrentLoraChannel"
 						android:layout_width="0dp"
 						android:layout_height="match_parent"
 						android:layout_weight="4"
 						android:gravity="center|center_vertical"
 						android:singleLine="true"
-						android:text="40"
+						tools:text="40"
 						android:textColor="@color/black_12"
 						android:textSize="12sp"
 						/>
@@ -321,12 +295,13 @@
 						/>
 
 				<TextView
+						android:id="@+id/textViewCurrentLoraAddress"
 						android:layout_width="0dp"
 						android:layout_height="match_parent"
 						android:layout_weight="4"
 						android:gravity="center|center_vertical"
 						android:singleLine="true"
-						android:text="65535"
+						tools:text="65535"
 						android:textColor="@color/black_12"
 						android:textSize="12sp"
 						/>
@@ -389,12 +364,13 @@
 						/>
 
 				<TextView
+						android:id="@+id/textViewCurrentLoraKey"
 						android:layout_width="0dp"
 						android:layout_height="match_parent"
 						android:layout_weight="4"
 						android:gravity="center|center_vertical"
 						android:singleLine="true"
-						android:text="0"
+						tools:text="0"
 						android:textColor="@color/black_12"
 						android:textSize="12sp"
 						/>
@@ -457,6 +433,7 @@
 						/>
 
 				<TextView
+						android:id="@+id/textViewCurrentLoraAirSpeed"
 						android:layout_width="0dp"
 						android:layout_height="match_parent"
 						android:layout_weight="4"
